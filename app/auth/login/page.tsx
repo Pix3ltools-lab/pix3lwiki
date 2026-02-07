@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -9,6 +9,7 @@ import { BookOpen } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +26,8 @@ export default function LoginPage() {
       setError(result.error);
       setLoading(false);
     } else {
-      router.push('/wiki');
+      const redirect = searchParams.get('redirect') || '/wiki';
+      router.push(redirect);
     }
   };
 
