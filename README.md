@@ -6,6 +6,10 @@ Pix3lWiki is a wiki companion app that integrates with [Pix3lBoard](https://boar
 
 > **Note**: This is an experimental app. Data persistence is not guaranteed and may be reset at any time.
 
+## Screenshot
+
+![Pix3lWiki](screenshot.jpg)
+
 ## Features
 
 ### Core Functionality
