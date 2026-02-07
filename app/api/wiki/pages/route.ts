@@ -8,6 +8,11 @@ import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
 export async function GET(request: NextRequest) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const categoryId = searchParams.get('category_id');

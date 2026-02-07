@@ -6,8 +6,13 @@ import { generateId } from '@/lib/utils/id';
 import { slugify } from '@/lib/utils/slug';
 import { WikiCategory } from '@/types';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     const rows = await query<WikiCategory & { page_count: number }>(
       `SELECT wc.*, COUNT(wp.id) as page_count
        FROM wiki_categories wc

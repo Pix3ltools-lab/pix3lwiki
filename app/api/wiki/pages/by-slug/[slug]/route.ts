@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { queryOne } from '@/lib/db/turso';
+import { requireAuth } from '@/lib/auth/middleware';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
 export async function GET(
@@ -7,6 +8,11 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     const row = await queryOne<WikiPageRow & { author_name: string | null; author_email: string; category_name: string | null; category_color: string | null }>(
       `SELECT wp.*, u.name as author_name, u.email as author_email,
               wc.name as category_name, wc.color as category_color
@@ -19,20 +25,6 @@ export async function GET(
 
     if (!row) {
       return NextResponse.json({ error: 'Page not found' }, { status: 404 });
-    }
-
-    // If draft/archived, check auth
-    if (row.status !== 'published') {
-      const token = request.cookies.get('token')?.value;
-      if (!token) {
-        return NextResponse.json({ error: 'Page not found' }, { status: 404 });
-      }
-      // Allow access if authenticated (they can see drafts)
-      const { verifyToken } = await import('@/lib/auth/auth');
-      const payload = await verifyToken(token);
-      if (!payload) {
-        return NextResponse.json({ error: 'Page not found' }, { status: 404 });
-      }
     }
 
     const page: WikiPageWithAuthor = {

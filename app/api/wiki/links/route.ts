@@ -7,6 +7,11 @@ import { Pix3lBoardLink } from '@/types';
 
 export async function GET(request: NextRequest) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     const { searchParams } = new URL(request.url);
     const wikiPageId = searchParams.get('wiki_page_id');
     const boardId = searchParams.get('board_id');

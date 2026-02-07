@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query, queryOne } from '@/lib/db/turso';
+import { requireAuth } from '@/lib/auth/middleware';
 import { WikiVersionWithAuthor } from '@/types';
 
 export async function GET(
@@ -7,6 +8,11 @@ export async function GET(
   { params }: { params: { pageId: string } }
 ) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     // Verify page exists
     const page = await queryOne<{ id: string }>(
       'SELECT id FROM wiki_pages WHERE id = :pageId',

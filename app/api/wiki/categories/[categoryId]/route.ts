@@ -9,6 +9,11 @@ export async function GET(
   { params }: { params: { categoryId: string } }
 ) {
   try {
+    const auth = await requireAuth(request);
+    if ('error' in auth) {
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+
     const category = await queryOne<WikiCategory>(
       'SELECT * FROM wiki_categories WHERE id = :id',
       { id: params.categoryId }
