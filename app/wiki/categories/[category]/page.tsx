@@ -26,7 +26,7 @@ export default function CategoryPage() {
         const cat = data.categories?.find((c: WikiCategory) => c.slug === categorySlug);
         if (cat) {
           setCategory(cat);
-          return fetch(`/api/wiki/pages?category_id=${cat.id}&status=published`);
+          return fetch(`/api/wiki/pages?category_id=${cat.id}`);
         }
         return null;
       })
