@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
-import { FolderOpen, Clock, ChevronDown, ChevronRight } from 'lucide-react';
+import { FolderOpen, Clock, ChevronDown, ChevronRight, Settings } from 'lucide-react';
+import { useAuth } from '@/lib/context/AuthContext';
 import { WikiCategory, WikiPage } from '@/types';
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { user } = useAuth();
   const [categories, setCategories] = useState<WikiCategory[]>([]);
   const [recentPages, setRecentPages] = useState<WikiPage[]>([]);
   const [showCategories, setShowCategories] = useState(true);
@@ -20,7 +22,7 @@ export function Sidebar() {
       .then(data => { if (data.categories) setCategories(data.categories); })
       .catch(() => {});
 
-    fetch('/api/wiki/pages?limit=5&status=published')
+    fetch('/api/wiki/pages?limit=5')
       .then(res => res.json())
       .then(data => { if (data.pages) setRecentPages(data.pages); })
       .catch(() => {});
@@ -61,6 +63,15 @@ export function Sidebar() {
               ))}
               {categories.length === 0 && (
                 <p className="text-xs text-text-secondary px-3 py-1">No categories yet</p>
+              )}
+              {user?.is_admin && (
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded text-xs text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors mt-1"
+                >
+                  <Settings className="h-3 w-3" />
+                  Manage Categories
+                </Link>
               )}
             </nav>
           )}
