@@ -69,6 +69,43 @@ export default function HomePage() {
               </div>
             </Link>
           </div>
+
+          {/* Experimental Warning */}
+          <div className="mt-8 max-w-md mx-auto space-y-4">
+            <div className="p-4 bg-yellow-500/10 border border-yellow-500/50 rounded-lg text-left">
+              <h3 className="font-semibold text-yellow-600 dark:text-yellow-400 mb-2 flex items-center gap-2">
+                ⚠️ Experimental Demo
+              </h3>
+              <p className="text-sm text-text-secondary">
+                This is an <strong>experimental version</strong> of Pix3lWiki. Data persistence is not guaranteed
+                and may be reset at any time. Use this only as a demo. The project source code is available on{' '}
+                <a
+                  href="https://github.com/Pix3ltools-lab/pix3lwiki"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent-primary hover:underline"
+                >
+                  GitHub
+                </a>.
+              </p>
+            </div>
+
+            {/* Cloud Storage Info */}
+            <div className="p-4 bg-accent-primary/10 border border-accent-primary/20 rounded-lg text-left">
+              <h3 className="font-semibold text-text-primary mb-2 flex items-center gap-2">
+                ☁️ Cloud Storage
+              </h3>
+              <p className="text-sm text-text-secondary mb-2">
+                Pix3lWiki shares the same cloud database as Pix3lBoard. Your wiki pages are stored{' '}
+                <strong>securely in the cloud</strong> and associated with your account. This means:
+              </p>
+              <ul className="text-sm text-text-secondary space-y-1 ml-4">
+                <li>• Access your wiki from any browser by logging in</li>
+                <li>• Your pages are safe even if you clear your browser cache</li>
+                <li>• Same account and credentials as Pix3lBoard</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </main>
       <Footer />
