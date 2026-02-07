@@ -3,6 +3,8 @@ import { query, queryOne, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { updatePageSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+
+export const dynamic = 'force-dynamic';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
 export async function GET(

@@ -3,6 +3,8 @@ import { query, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { createLinkSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+
+export const dynamic = 'force-dynamic';
 import { Pix3lBoardLink } from '@/types';
 
 export async function GET(request: NextRequest) {

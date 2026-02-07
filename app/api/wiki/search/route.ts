@@ -3,6 +3,8 @@ import { query } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireAuth(request);

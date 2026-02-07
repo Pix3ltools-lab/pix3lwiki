@@ -3,6 +3,8 @@ import { query, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { createPageSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+
+export const dynamic = 'force-dynamic';
 import { slugify } from '@/lib/utils/slug';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
