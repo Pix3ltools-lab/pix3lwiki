@@ -75,6 +75,18 @@ export async function POST(request: NextRequest) {
       }
     );
 
+    // Update wiki_page_id on the card in pix3lboard's cards table (shared DB)
+    if (card_id && wiki_page_id) {
+      try {
+        await execute(
+          'UPDATE cards SET wiki_page_id = :wikiPageId, updated_at = :now WHERE id = :cardId',
+          { wikiPageId: wiki_page_id, now, cardId: card_id }
+        );
+      } catch {
+        // Non-critical: card may not exist or column may not be migrated yet
+      }
+    }
+
     return NextResponse.json({ link: { id, wiki_page_id, link_type } }, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
