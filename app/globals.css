@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e5e5e5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+}
+
+.dark {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary;
+    @apply transition-colors duration-200;
+  }
+
+  * {
+    @apply border-bg-tertiary;
+  }
+}
+
+@layer components {
+  /* Scrollbar styles */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(176, 176, 176, 0.3);
+  }
+
+  /* Wiki prose styles for markdown content */
+  .prose-wiki {
+    @apply text-text-primary leading-relaxed;
+  }
+
+  .prose-wiki h1 {
+    @apply text-3xl font-bold mt-8 mb-4 pb-2 border-b border-bg-tertiary;
+  }
+
+  .prose-wiki h2 {
+    @apply text-2xl font-semibold mt-6 mb-3 pb-1 border-b border-bg-tertiary;
+  }
+
+  .prose-wiki h3 {
+    @apply text-xl font-semibold mt-5 mb-2;
+  }
+
+  .prose-wiki h4 {
+    @apply text-lg font-medium mt-4 mb-2;
+  }
+
+  .prose-wiki p {
+    @apply mb-4;
+  }
+
+  .prose-wiki a {
+    @apply text-accent-primary hover:text-accent-primary/80 underline;
+  }
+
+  .prose-wiki strong {
+    @apply font-semibold;
+  }
+
+  .prose-wiki ul {
+    @apply list-disc list-inside mb-4 space-y-1;
+  }
+
+  .prose-wiki ol {
+    @apply list-decimal list-inside mb-4 space-y-1;
+  }
+
+  .prose-wiki li {
+    @apply text-text-primary;
+  }
+
+  .prose-wiki blockquote {
+    @apply border-l-4 border-accent-primary pl-4 py-1 my-4 bg-bg-secondary rounded-r;
+  }
+
+  .prose-wiki code {
+    @apply bg-bg-secondary text-accent-primary px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose-wiki pre {
+    @apply bg-bg-secondary rounded-lg p-4 mb-4 overflow-x-auto;
+  }
+
+  .prose-wiki pre code {
+    @apply bg-transparent px-0 py-0 text-text-primary;
+  }
+
+  .prose-wiki table {
+    @apply w-full border-collapse mb-4;
+  }
+
+  .prose-wiki th {
+    @apply bg-bg-secondary px-4 py-2 text-left font-semibold border border-bg-tertiary;
+  }
+
+  .prose-wiki td {
+    @apply px-4 py-2 border border-bg-tertiary;
+  }
+
+  .prose-wiki tr:hover td {
+    @apply bg-bg-secondary;
+  }
+
+  .prose-wiki hr {
+    @apply border-bg-tertiary my-6;
+  }
+
+  .prose-wiki img {
+    @apply rounded-lg max-w-full h-auto my-4;
+  }
+
+  .prose-wiki input[type="checkbox"] {
+    @apply mr-2 accent-accent-primary;
+  }
+}
