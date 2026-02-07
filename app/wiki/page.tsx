@@ -13,7 +13,7 @@ export default function WikiListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/wiki/pages?status=published')
+    fetch('/api/wiki/pages')
       .then(res => res.json())
       .then(data => { if (data.pages) setPages(data.pages); })
       .catch(() => {})

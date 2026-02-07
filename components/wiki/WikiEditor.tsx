@@ -22,7 +22,7 @@ export function WikiEditor({ page, mode }: WikiEditorProps) {
   const [categoryId, setCategoryId] = useState(page?.category_id || '');
   const [tags, setTags] = useState(page?.tags?.join(', ') || '');
   const [status, setStatus] = useState<'draft' | 'published'>(
-    (page?.status as 'draft' | 'published') || 'draft'
+    (page?.status as 'draft' | 'published') || 'published'
   );
   const [changeSummary, setChangeSummary] = useState('');
   const [categories, setCategories] = useState<WikiCategory[]>([]);
