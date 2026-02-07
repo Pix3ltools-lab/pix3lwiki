@@ -12,9 +12,11 @@ import { Bold, Italic, Code, List, Link2, Heading, Eye, Edit } from 'lucide-reac
 interface WikiEditorProps {
   page?: WikiPageWithAuthor;
   mode: 'create' | 'edit';
+  boardId?: string;
+  cardId?: string;
 }
 
-export function WikiEditor({ page, mode }: WikiEditorProps) {
+export function WikiEditor({ page, mode, boardId, cardId }: WikiEditorProps) {
   const router = useRouter();
   const { showToast } = useUI();
   const [title, setTitle] = useState(page?.title || '');
@@ -89,6 +91,24 @@ export function WikiEditor({ page, mode }: WikiEditorProps) {
       if (!response.ok) {
         showToast(data.error || 'Failed to save', 'error');
         return;
+      }
+
+      // Create pix3lboard link if context is available
+      if (mode === 'create' && data.page?.id && (boardId || cardId)) {
+        try {
+          await fetch('/api/wiki/links', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              wiki_page_id: data.page.id,
+              board_id: boardId || null,
+              card_id: cardId || null,
+              link_type: 'documentation',
+            }),
+          });
+        } catch {
+          // Link creation is non-critical
+        }
       }
 
       showToast(mode === 'create' ? 'Page created!' : 'Page updated!', 'success');
