@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 import { BookOpen, Search, Plus, Settings, ExternalLink, LogIn, LogOut } from 'lucide-react';
-import { PIX3LBOARD_URL } from '@/lib/constants';
+import { PIX3LBOARD_URL, APP_VERSION } from '@/lib/constants';
 
 export function Header() {
   const { user, isAuthenticated, signOut } = useAuth();
@@ -17,6 +17,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2 text-text-primary hover:text-accent-primary transition-colors">
             <BookOpen className="h-6 w-6 text-accent-primary" />
             <span className="font-bold text-lg">Pix<span className="text-red-500">3</span><span className="text-blue-500">l</span>Wiki</span>
+            <span className="text-xs text-text-secondary font-normal">v{APP_VERSION}</span>
           </Link>
 
           {/* Nav links */}

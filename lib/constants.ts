@@ -1,3 +1,6 @@
+// App version
+export const APP_VERSION = process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0';
+
 // Pix3lBoard integration
 export const PIX3LBOARD_URL = process.env.NEXT_PUBLIC_PIX3LBOARD_URL || 'https://board.pix3ltools.com';
 
