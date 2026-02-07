@@ -5,6 +5,28 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-02-07
+
+### Added
+- **Pix3lBoard Integration**: Seamless linking between wiki pages and Pix3lBoard cards
+  - Create wiki pages directly from card modal via `?board=ID&card=ID` URL params
+  - Automatic redirect to existing wiki page when card already has a linked page
+  - Links stored in `pix3lboard_links` table for card-to-page associations
+- **Experimental Demo Disclaimers**: Warning banners on homepage matching Pix3lBoard style
+
+### Fixed
+- **Login Redirect**: Query params (`?board=ID&card=ID`) now preserved through login redirect
+- **Suspense Boundary**: Wrapped `useSearchParams()` in Suspense on login page (Vercel build fix)
+- **Page Visibility**: Pages now visible immediately after creation (default status changed from `draft` to `published`)
+- **Sidebar Pages**: Removed `status=published` filter from sidebar recent pages
+- **Category Pages**: Removed `status=published` filter from category page view
+- **Cold Start**: Added `force-dynamic` to all API routes for Vercel serverless
+
+### Changed
+- Sidebar now shows "Manage Categories" link for admin users
+
+---
+
 ## [1.0.0] - 2026-02-07
 
 ### Added

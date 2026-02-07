@@ -1,6 +1,6 @@
 {
   "name": "pix3lwiki",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Wiki companion app for Pix3lBoard",
   "private": true,
   "scripts": {
