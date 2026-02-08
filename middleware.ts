@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const token = request.cookies.get('token')?.value;
+  const token = request.cookies.get('auth-token')?.value;
 
   if (!token) {
     const loginUrl = new URL('/auth/login', request.url);

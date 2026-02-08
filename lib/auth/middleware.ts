@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { verifyToken, getUserById, User } from './auth';
 
 export async function requireAuth(request: NextRequest): Promise<{ user: User } | { error: string; status: number }> {
-  const token = request.cookies.get('token')?.value;
+  const token = request.cookies.get('auth-token')?.value;
 
   if (!token) {
     return { error: 'Authentication required', status: 401 };
