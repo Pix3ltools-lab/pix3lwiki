@@ -36,3 +36,6 @@ next-env.d.ts
 # claude
 .claude/
 CLAUDE.md
+
+# personal notes
+how_to_docker.md

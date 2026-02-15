@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
+const connectSrc = [
+  "'self'",
+  process.env.TURSO_DATABASE_URL?.startsWith('libsql://') ? 'https://*.turso.io' : '',
+].filter(Boolean).join(' ');
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -40,7 +45,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https:",
               "font-src 'self'",
-              "connect-src 'self' https://*.turso.io",
+              `connect-src ${connectSrc}`,
               "frame-ancestors 'none'",
             ].join('; '),
           },
