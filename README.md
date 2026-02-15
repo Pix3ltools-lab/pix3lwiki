@@ -148,16 +148,28 @@ pix3lwiki/
 │   ├── providers/                # AppProvider
 │   ├── ui/                       # Button, Input, Modal, Spinner, Toast, etc.
 │   └── wiki/                     # MarkdownRenderer, WikiEditor, WikiCard, etc.
+├── e2e/                          # Playwright E2E tests
+│   ├── auth.setup.ts             # Login + save storage state
+│   ├── fixtures.ts               # Shared test helpers
+│   ├── auth.spec.ts              # Authentication tests
+│   ├── wiki.spec.ts              # Wiki pages tests
+│   ├── category.spec.ts          # Category management tests
+│   ├── search.spec.ts            # Search tests
+│   └── api.spec.ts               # API endpoint tests
 ├── lib/
 │   ├── auth/                     # JWT auth + middleware helpers
 │   ├── bridge/                   # Pix3lBoard integration bridge
 │   ├── context/                  # AuthContext, UIContext
 │   ├── db/                       # Turso client + setup
 │   ├── utils/                    # ID generation, slugify
-│   ├── validation/               # Zod schemas
+│   ├── validation/               # Zod schemas + unit tests
 │   └── constants.ts              # App constants
+├── scripts/
+│   └── db-init.sh                # CI database setup + test user
 ├── types/                        # TypeScript types
-└── middleware.ts                  # Route protection
+├── middleware.ts                  # Route protection
+├── playwright.config.ts          # Playwright configuration
+└── vitest.config.ts              # Vitest configuration
 ```
 
 ## Database Schema
@@ -171,6 +183,45 @@ wiki_versions      -- Version history per page with change summary
 pix3lboard_links   -- Cross-references to boards/cards/workspaces
 ```
 
+## Testing
+
+### Unit Tests (Vitest)
+
+28 tests covering all Zod validation schemas:
+
+```bash
+npm run test:unit
+```
+
+### E2E Tests (Playwright)
+
+27 tests across 5 suites covering auth, wiki pages, categories, search, and API:
+
+```bash
+# Run all E2E tests (needs running dev server + database)
+npm run test:e2e
+
+# Interactive UI mode
+npm run test:e2e:ui
+
+# Headed browser (visible)
+npm run test:e2e:headed
+
+# Slow motion for demos
+SLOW_MO=500 npm run test:e2e:headed
+```
+
+E2E tests require environment variables `E2E_USER_EMAIL` and `E2E_USER_PASSWORD` pointing to an existing user. See `scripts/db-init.sh` for automated database + test user setup.
+
+### CI/CD
+
+GitHub Actions runs on every push and PR to `main`:
+
+- **Job 1: Lint & Type-check** — `npm run lint` + `npm run type-check` + `npm run build`
+- **Job 2: E2E Tests** (depends on Job 1) — spins up a libSQL server, initializes the database, runs the full Playwright suite
+
+Playwright HTML report is uploaded as artifact on every run.
+
 ## Available Scripts
 
 - `npm run dev` - Start development server (port 3001)
@@ -179,6 +230,10 @@ pix3lboard_links   -- Cross-references to boards/cards/workspaces
 - `npm run lint` - Run ESLint
 - `npm run type-check` - Run TypeScript compiler
 - `npm run db:setup` - Initialize wiki database tables
+- `npm run test:unit` - Run Vitest unit tests
+- `npm run test:e2e` - Run Playwright E2E tests
+- `npm run test:e2e:ui` - Open Playwright interactive UI
+- `npm run test:e2e:headed` - Run E2E tests with visible browser
 
 ## Security
 
