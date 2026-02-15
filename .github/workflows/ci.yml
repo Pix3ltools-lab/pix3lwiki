@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-typecheck-build:
+    name: Lint, Type-check & Build
+    runs-on: ubuntu-latest
+
+    env:
+      TURSO_DATABASE_URL: http://localhost:8080
+      TURSO_AUTH_TOKEN: dummy
+      JWT_SECRET: ci-test-secret-minimum-32-characters-long!!
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
