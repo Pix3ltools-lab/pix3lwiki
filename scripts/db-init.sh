@@ -29,6 +29,9 @@ node -e "
 echo "==> Running wiki database setup..."
 npx tsx lib/db/setup.ts
 
+echo "==> Running rate_limits migration..."
+npx tsx lib/db/migrate-rate-limits.ts
+
 # Create test user if credentials are provided
 if [ -n "${E2E_USER_EMAIL:-}" ] && [ -n "${E2E_USER_PASSWORD:-}" ]; then
   echo "==> Creating test user ($E2E_USER_EMAIL)..."

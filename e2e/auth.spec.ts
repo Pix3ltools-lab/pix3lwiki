@@ -37,6 +37,25 @@ test.describe('Authentication', () => {
     await expect(page).toHaveURL(/\/auth\/login/, { timeout: 10000 });
   });
 
+  test('rate limiting locks after 5 failed attempts', async ({ page }) => {
+    await page.goto('/auth/login');
+
+    for (let i = 0; i < 5; i++) {
+      await page.fill('input[placeholder="you@example.com"]', E2E_EMAIL);
+      await page.fill('input[placeholder="Your password"]', 'wrong-password-12345');
+      await page.click('button:has-text("Sign in")');
+      // Wait for error to appear before next attempt
+      await expect(page.locator('.text-accent-danger')).toBeVisible({ timeout: 5000 });
+    }
+
+    // 6th attempt should be rate-limited
+    await page.fill('input[placeholder="you@example.com"]', E2E_EMAIL);
+    await page.fill('input[placeholder="Your password"]', 'wrong-password-12345');
+    await page.click('button:has-text("Sign in")');
+
+    await expect(page.locator('.text-accent-danger')).toContainText('Too many failed attempts', { timeout: 5000 });
+  });
+
   test('logout redirects to home page', async ({ page }) => {
     // First login
     await page.goto('/auth/login');
