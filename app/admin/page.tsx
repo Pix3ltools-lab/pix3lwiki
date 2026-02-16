@@ -7,6 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { PageTable } from '@/components/admin/PageTable';
 import { CategoryManager } from '@/components/admin/CategoryManager';
 import { ExportButton } from '@/components/admin/ExportButton';
+import { ExportMarkdownButton } from '@/components/admin/ExportMarkdownButton';
 import { Spinner } from '@/components/ui/Spinner';
 
 export default function AdminPage() {
@@ -36,7 +37,10 @@ export default function AdminPage() {
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-text-primary">Admin Panel</h1>
-            <ExportButton />
+            <div className="flex items-center gap-2">
+              <ExportButton />
+              <ExportMarkdownButton />
+            </div>
           </div>
           <CategoryManager />
           <PageTable />
