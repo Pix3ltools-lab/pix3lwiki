@@ -32,6 +32,7 @@ Pix3lWiki is a wiki companion app that integrates with [Pix3lBoard](https://boar
 ### Admin Panel
 - **Page Management**: View, edit, and delete all pages
 - **Category Management**: Create, edit, and delete categories with color picker
+- **Backup & Restore**: Export all wiki data as JSON, export pages as Markdown ZIP, or restore from a previously exported JSON backup (atomic all-or-nothing operation)
 
 ### User Experience
 - **Dark Mode**: Eye-friendly dark theme with light mode toggle
@@ -126,6 +127,7 @@ npm run start
 pix3lwiki/
 ├── app/                          # Next.js App Router pages
 │   ├── api/                      # API routes
+│   │   ├── admin/                # Admin API (export JSON/MD, restore)
 │   │   ├── auth/                 # Authentication (login, me, logout)
 │   │   └── wiki/                 # Wiki API
 │   │       ├── pages/            # Pages CRUD + versions
@@ -143,7 +145,7 @@ pix3lwiki/
 │   ├── layout.tsx                # Root layout
 │   └── globals.css               # Global styles + prose-wiki
 ├── components/
-│   ├── admin/                    # PageTable, CategoryManager
+│   ├── admin/                    # PageTable, CategoryManager, Export/Restore buttons
 │   ├── layout/                   # Header, Sidebar, Footer, ThemeToggle
 │   ├── providers/                # AppProvider
 │   ├── ui/                       # Button, Input, Modal, Spinner, Toast, etc.
