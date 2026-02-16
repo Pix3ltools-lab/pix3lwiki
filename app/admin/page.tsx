@@ -8,6 +8,7 @@ import { PageTable } from '@/components/admin/PageTable';
 import { CategoryManager } from '@/components/admin/CategoryManager';
 import { ExportButton } from '@/components/admin/ExportButton';
 import { ExportMarkdownButton } from '@/components/admin/ExportMarkdownButton';
+import { RestoreButton } from '@/components/admin/RestoreButton';
 import { Spinner } from '@/components/ui/Spinner';
 
 export default function AdminPage() {
@@ -40,6 +41,7 @@ export default function AdminPage() {
             <div className="flex items-center gap-2">
               <ExportButton />
               <ExportMarkdownButton />
+              <RestoreButton />
             </div>
           </div>
           <CategoryManager />
