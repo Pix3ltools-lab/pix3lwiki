@@ -8,6 +8,7 @@ import {
   useCallback,
   ReactNode,
 } from 'react';
+import { useRouter } from 'next/navigation';
 
 export interface User {
   id: string;
@@ -30,6 +31,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -85,11 +87,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
       setUser(null);
-      window.location.replace('/');
+      router.push('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
-  }, []);
+  }, [router]);
 
   const value: AuthContextType = {
     user,
