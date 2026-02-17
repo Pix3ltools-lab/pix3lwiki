@@ -83,8 +83,8 @@ test.describe('Wiki Pages', () => {
     // Go back to edit page and check version history
     await page.goto(`/wiki/${slug}/edit`);
     await expect(page.locator('text=Version History')).toBeVisible({ timeout: 10000 });
-    await expect(page.locator('text=v1')).toBeVisible({ timeout: 10000 });
-    await expect(page.locator('text=v2')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('v1', { exact: true })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText('v2', { exact: true })).toBeVisible({ timeout: 10000 });
   });
 
   test('delete a page via admin panel', async ({ page }) => {
