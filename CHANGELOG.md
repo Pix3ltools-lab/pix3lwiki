@@ -5,6 +5,24 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-02-17
+
+### Added
+- **Structured Logging**: Pino JSON logging across all API routes
+  - Configurable log level via `LOG_LEVEL` environment variable (defaults to `info`)
+  - Works on Vercel (Function Logs dashboard) and Docker (`docker compose logs`)
+  - `pino-pretty` devDependency for human-readable dev output (`npm run dev:pretty`)
+- **E2E Test Suite**: 28 Playwright tests across 5 suites (auth, wiki, category, search, API)
+- **Unit Tests**: 33 Vitest tests (Zod schemas, rate limit sanitization)
+- **CI/CD Pipeline**: GitHub Actions workflow for lint, type-check, and E2E tests
+- **Rate Limiting**: Database-backed login rate limiting (5 attempts, 15-min lockout)
+- **Database Backup & Restore**: Admin panel JSON export, Markdown ZIP export, restore from backup
+
+### Changed
+- All `console.error` / `console.log` calls in API routes replaced with `logger.error` / `logger.info`
+
+---
+
 ## [1.1.1] - 2026-02-08
 
 ### Added
