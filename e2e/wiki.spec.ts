@@ -10,7 +10,7 @@ test.describe('Wiki Pages', () => {
 
     // Should be on the page view
     await expect(page.locator('h1', { hasText: title })).toBeVisible();
-    await expect(page.locator('text=Hello World')).toBeVisible();
+    await expect(page.locator('article').locator('text=Hello World')).toBeVisible();
     expect(slug).toBeTruthy();
   });
 
@@ -47,11 +47,11 @@ test.describe('Wiki Pages', () => {
 
     // Save
     await page.click('button:has-text("Save Changes")');
-    await page.waitForURL(/\/wiki\//, { timeout: 10000 });
+    await page.waitForURL(/\/wiki\/[^/]+$/, { timeout: 10000 });
 
     // Verify updated content
     await expect(page.locator('h1', { hasText: `${title} Updated` })).toBeVisible();
-    await expect(page.locator('text=Updated content here')).toBeVisible();
+    await expect(page.locator('article').locator('text=Updated content here')).toBeVisible();
   });
 
   test('page appears in wiki list', async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe('Wiki Pages', () => {
     await editor.clear();
     await editor.fill('Second version content');
     await page.click('button:has-text("Save Changes")');
-    await page.waitForURL(/\/wiki\//, { timeout: 10000 });
+    await page.waitForURL(/\/wiki\/[^/]+$/, { timeout: 10000 });
 
     // Go back to edit page and check version history
     await page.goto(`/wiki/${slug}/edit`);

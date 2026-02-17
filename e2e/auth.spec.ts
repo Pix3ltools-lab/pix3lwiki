@@ -67,10 +67,10 @@ test.describe('Authentication', () => {
     // Click the sign-out button (LogOut icon in header)
     await page.click('button[aria-label="Sign out"]');
 
-    // Should redirect to home
-    await expect(page).toHaveURL('/', { timeout: 10000 });
+    // Wait for Sign in link to appear (confirms logout + navigation complete)
+    await expect(page.locator('a:has-text("Sign in")')).toBeVisible({ timeout: 15000 });
 
-    // Sign in link should be visible
-    await expect(page.locator('text=Sign in')).toBeVisible();
+    // Should be on home page
+    await expect(page).toHaveURL('/');
   });
 });

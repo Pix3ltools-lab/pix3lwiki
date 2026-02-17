@@ -38,8 +38,8 @@ export async function createPage(
   // Click Create Page
   await page.click('button:has-text("Create Page")');
 
-  // Wait for redirect to the new page
-  await page.waitForURL(/\/wiki\//, { timeout: 10000 });
+  // Wait for redirect to the page view (not /wiki/new or /wiki/search)
+  await page.waitForURL(/\/wiki\/(?!new$|search$)[^/]+$/, { timeout: 10000 });
 
   // Return the slug from the URL
   const url = new URL(page.url());

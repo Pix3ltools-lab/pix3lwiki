@@ -147,12 +147,14 @@ export function CategoryManager() {
                 <button
                   onClick={() => openEdit(cat)}
                   className="p-1.5 rounded hover:bg-bg-tertiary transition-colors"
+                  title="Edit"
                 >
                   <Edit className="h-4 w-4 text-text-secondary" />
                 </button>
                 <button
                   onClick={() => handleDelete(cat)}
                   className="p-1.5 rounded hover:bg-accent-danger/10 transition-colors"
+                  title="Delete"
                 >
                   <Trash2 className="h-4 w-4 text-accent-danger" />
                 </button>
