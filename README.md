@@ -247,6 +247,18 @@ Playwright HTML report is uploaded as artifact on every run.
 - **Route Protection**: Middleware redirects for authenticated-only pages
 - **Authorization**: Only authors and admins can edit/delete pages
 
+## Logging
+
+All API routes use [Pino](https://getpino.io/) for structured JSON logging. Log level is configurable via the `LOG_LEVEL` environment variable (defaults to `info`). Supported levels: `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
+
+```bash
+# Enable debug logging
+LOG_LEVEL=debug npm run start
+```
+
+- **Vercel**: JSON logs appear in the Function Logs dashboard
+- **Docker**: `docker compose logs -f pix3lwiki`
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
