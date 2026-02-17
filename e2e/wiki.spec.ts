@@ -62,8 +62,8 @@ test.describe('Wiki Pages', () => {
     await page.goto('/wiki');
     await expect(page.locator('text=Wiki Pages')).toBeVisible({ timeout: 10000 });
 
-    // Our page should be visible
-    await expect(page.locator(`text=${title}`)).toBeVisible();
+    // Our page should be visible (wait for list to load from API)
+    await expect(page.locator(`text=${title}`)).toBeVisible({ timeout: 10000 });
   });
 
   test('version history is shown on edit page', async ({ page }) => {
