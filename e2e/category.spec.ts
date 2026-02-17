@@ -42,8 +42,8 @@ test.describe('Categories (Admin)', () => {
     await page.click('button:has-text("Create")');
     await expect(page.locator(`text=${catName}`)).toBeVisible({ timeout: 5000 });
 
-    // Click edit button on the category
-    const catRow = page.locator('div', { hasText: catName }).filter({ has: page.locator('button[title="Edit"]') });
+    // Click edit button on the category row
+    const catRow = page.locator('div.rounded-lg').filter({ hasText: catName });
     await catRow.locator('button[title="Edit"]').click();
     await expect(page.locator('text=Edit Category')).toBeVisible();
 
@@ -70,8 +70,8 @@ test.describe('Categories (Admin)', () => {
     await page.click('button:has-text("Create")');
     await expect(page.locator(`text=${catName}`)).toBeVisible({ timeout: 5000 });
 
-    // Click delete button
-    const catRow = page.locator('div', { hasText: catName }).filter({ has: page.locator('button[title="Delete"]') });
+    // Click delete button on the category row
+    const catRow = page.locator('div.rounded-lg').filter({ hasText: catName });
     await catRow.locator('button[title="Delete"]').click();
 
     // Confirm in dialog
