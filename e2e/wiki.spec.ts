@@ -125,6 +125,6 @@ test.describe('Wiki Pages', () => {
     await navigateToPage(page, slug);
 
     // Draft badge should be visible on page view
-    await expect(page.locator('article').locator('text=Draft')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('article').getByText('Draft', { exact: true })).toBeVisible({ timeout: 10000 });
   });
 });
