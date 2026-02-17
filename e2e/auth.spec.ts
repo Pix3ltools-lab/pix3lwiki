@@ -37,6 +37,25 @@ test.describe('Authentication', () => {
     await expect(page).toHaveURL(/\/auth\/login/, { timeout: 10000 });
   });
 
+  test('logout redirects to home page', async ({ page }) => {
+    // First login
+    await page.goto('/auth/login');
+    await page.fill('input[placeholder="you@example.com"]', E2E_EMAIL);
+    await page.fill('input[placeholder="Your password"]', E2E_PASSWORD);
+    await page.click('button:has-text("Sign in")');
+    await expect(page).toHaveURL('/wiki', { timeout: 15000 });
+
+    // Click the sign-out button (LogOut icon in header)
+    await page.click('button[aria-label="Sign out"]');
+
+    // Wait for Sign in link to appear (confirms logout + navigation complete)
+    await expect(page.locator('a:has-text("Sign in")')).toBeVisible({ timeout: 15000 });
+
+    // Should be on home page
+    await expect(page).toHaveURL('/');
+  });
+
+  // Keep rate limiting test last — it locks the account for 15 minutes
   test('rate limiting locks after 5 failed attempts', async ({ page }) => {
     await page.goto('/auth/login');
 
@@ -54,23 +73,5 @@ test.describe('Authentication', () => {
     await page.click('button:has-text("Sign in")');
 
     await expect(page.locator('.text-accent-danger')).toContainText('Too many failed attempts', { timeout: 5000 });
-  });
-
-  test('logout redirects to home page', async ({ page }) => {
-    // First login
-    await page.goto('/auth/login');
-    await page.fill('input[placeholder="you@example.com"]', E2E_EMAIL);
-    await page.fill('input[placeholder="Your password"]', E2E_PASSWORD);
-    await page.click('button:has-text("Sign in")');
-    await expect(page).toHaveURL('/wiki', { timeout: 15000 });
-
-    // Click the sign-out button (LogOut icon in header)
-    await page.click('button[aria-label="Sign out"]');
-
-    // Wait for Sign in link to appear (confirms logout + navigation complete)
-    await expect(page.locator('a:has-text("Sign in")')).toBeVisible({ timeout: 15000 });
-
-    // Should be on home page
-    await expect(page).toHaveURL('/');
   });
 });
