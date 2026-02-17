@@ -121,6 +121,19 @@ npm run start
    - `NEXT_PUBLIC_PIX3LBOARD_URL`
 4. Deploy
 
+### Deploy with Docker
+
+Pre-built Docker images are available from the [pix3ltools-deploy](https://github.com/Pix3ltools-lab/pix3ltools-deploy) repository. It provides a `docker-compose.yml` that runs Pix3lBoard, Pix3lWiki, and a local SQLite database — no cloud services required.
+
+```bash
+git clone https://github.com/Pix3ltools-lab/pix3ltools-deploy.git
+cd pix3ltools-deploy
+cp .env.example .env   # edit and set JWT_SECRET
+docker compose up -d
+```
+
+See the [deploy repo README](https://github.com/Pix3ltools-lab/pix3ltools-deploy#readme) for full setup instructions.
+
 ## Project Structure
 
 ```
