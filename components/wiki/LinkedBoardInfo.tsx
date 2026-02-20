@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Pix3lBoardLink } from '@/types';
 import { ExternalLink } from 'lucide-react';
-import { PIX3LBOARD_URL } from '@/lib/constants';
+import { usePix3lConfig } from '@/lib/hooks/usePix3lConfig';
 
 interface LinkedBoardInfoProps {
   pageId: string;
@@ -11,6 +11,7 @@ interface LinkedBoardInfoProps {
 
 export function LinkedBoardInfo({ pageId }: LinkedBoardInfoProps) {
   const [links, setLinks] = useState<Pix3lBoardLink[]>([]);
+  const { pix3lboardUrl } = usePix3lConfig();
 
   useEffect(() => {
     fetch(`/api/wiki/links?wiki_page_id=${pageId}`)
@@ -30,10 +31,10 @@ export function LinkedBoardInfo({ pageId }: LinkedBoardInfoProps) {
             key={link.id}
             href={
               link.card_id && link.board_id
-                ? `${PIX3LBOARD_URL}/board/${link.board_id}?card=${link.card_id}`
+                ? `${pix3lboardUrl}/board/${link.board_id}?card=${link.card_id}`
                 : link.board_id
-                  ? `${PIX3LBOARD_URL}/board/${link.board_id}`
-                  : PIX3LBOARD_URL
+                  ? `${pix3lboardUrl}/board/${link.board_id}`
+                  : pix3lboardUrl
             }
             target="_blank"
             rel="noopener noreferrer"

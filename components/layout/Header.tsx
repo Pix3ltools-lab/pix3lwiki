@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/context/AuthContext';
 import { ThemeToggle } from './ThemeToggle';
 import { BookOpen, Search, Plus, Settings, ExternalLink, LogIn, LogOut } from 'lucide-react';
-import { PIX3LBOARD_URL, APP_VERSION } from '@/lib/constants';
+import { APP_VERSION } from '@/lib/constants';
+import { usePix3lConfig } from '@/lib/hooks/usePix3lConfig';
 
 export function Header() {
   const { user, isAuthenticated, signOut } = useAuth();
+  const { pix3lboardUrl } = usePix3lConfig();
 
   return (
     <header className="sticky top-0 z-40 border-b border-bg-tertiary bg-bg-primary/95 backdrop-blur-sm">
@@ -47,7 +49,7 @@ export function Header() {
         {/* Right side */}
         <div className="flex items-center gap-2">
           <a
-            href={PIX3LBOARD_URL}
+            href={pix3lboardUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary transition-colors px-2 py-1"
