@@ -79,6 +79,7 @@ test.describe('Wiki Pages', () => {
     await editor.fill('Second version content');
     await page.click('button:has-text("Save Changes")');
     await page.waitForURL(/\/wiki\/[^/]+$/, { timeout: 10000 });
+    await expect(page.locator('article').locator('text=Second version content')).toBeVisible({ timeout: 10000 });
 
     // Go back to edit page and check version history
     await page.goto(`/wiki/${slug}/edit`);
