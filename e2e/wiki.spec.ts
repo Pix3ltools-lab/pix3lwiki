@@ -48,6 +48,7 @@ test.describe('Wiki Pages', () => {
     // Save
     await page.click('button:has-text("Save Changes")');
     await page.waitForURL(/\/wiki\/[^/]+$/, { timeout: 10000 });
+    await page.waitForLoadState('networkidle');
 
     // Verify updated content
     await expect(page.locator('h1', { hasText: `${title} Updated` })).toBeVisible({ timeout: 10000 });
