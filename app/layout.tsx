@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pix3lConfig = {
-    pix3lboardUrl: process.env.PIX3LBOARD_URL || 'http://localhost:3000',
+    pix3lboardUrl: process.env.PIX3LBOARD_URL || process.env.NEXT_PUBLIC_PIX3LBOARD_URL || 'http://localhost:3000',
   };
 
   return (
