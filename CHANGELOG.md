@@ -5,6 +5,16 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-02-20
+
+### Changed
+- **Runtime URL config**: Cross-app link to Pix3lBoard now reads from
+  `window.__PIX3L_CONFIG__` injected by the server layout, so self-hosted
+  Docker deployments get the correct URL without rebuilding the image.
+  Affects Header and LinkedBoardInfo linked board links.
+
+---
+
 ## [1.2.0] - 2026-02-17
 
 ### Added
