@@ -5,6 +5,15 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2026-02-20
+
+### Fixed
+- **Runtime URL config**: Use server-only env var `PIX3LBOARD_URL` instead of
+  `NEXT_PUBLIC_PIX3LBOARD_URL` in layout.tsx so Docker deployments correctly
+  inject the board URL at request time without requiring an image rebuild.
+
+---
+
 ## [1.2.1] - 2026-02-20
 
 ### Changed
