@@ -5,6 +5,15 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] - 2026-02-20
+
+### Fixed
+- **Runtime config**: Use `https://board.pix3ltools.com` as final fallback for
+  `pix3lboardUrl` so Vercel deployments without `NEXT_PUBLIC_PIX3LBOARD_URL`
+  configured still link to the correct board URL.
+
+---
+
 ## [1.2.4] - 2026-02-20
 
 ### Fixed
