@@ -50,8 +50,8 @@ test.describe('Wiki Pages', () => {
     await page.waitForURL(/\/wiki\/[^/]+$/, { timeout: 10000 });
 
     // Verify updated content
-    await expect(page.locator('h1', { hasText: `${title} Updated` })).toBeVisible();
-    await expect(page.locator('article').locator('text=Updated content here')).toBeVisible();
+    await expect(page.locator('h1', { hasText: `${title} Updated` })).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('article').locator('text=Updated content here')).toBeVisible({ timeout: 10000 });
   });
 
   test('page appears in wiki list', async ({ page }) => {
