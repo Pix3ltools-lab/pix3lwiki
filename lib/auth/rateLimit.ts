@@ -57,9 +57,9 @@ export async function checkRateLimit(
 
     return { allowed: true };
   } catch (error) {
-    // If database error, allow the request (fail-open for availability)
+    // Fail-closed: if the DB is unreachable, block the request to prevent brute force
     console.error('Rate limit check error:', error);
-    return { allowed: true };
+    return { allowed: false, error: 'Service temporarily unavailable, please try again later' };
   }
 }
 
