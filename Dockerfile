@@ -24,6 +24,6 @@ RUN chown -R node:node /app
 USER node
 
 EXPOSE 3001
-HEALTHCHECK --interval=30s --timeout=3s \
-  CMD node -e "require('http').get('http://localhost:3001', (r) => { if (r.statusCode !== 200) throw new Error(r.statusCode) })"
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
+  CMD wget -qO- http://localhost:3001 > /dev/null || exit 1
 CMD ["npx", "next", "start", "-p", "3001"]
