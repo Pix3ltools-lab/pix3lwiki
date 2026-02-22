@@ -5,6 +5,17 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.7] - 2026-02-22
+
+### Fixed
+- Docker healthcheck: replace `node -e` (3s timeout, no explicit exit) with `wget` (10s timeout, 60s start-period)
+- Docker: use built-in `node` user (uid 1000) instead of creating `app` group — `node:20-alpine` already ships with gid 1000
+
+### Docs
+- Update README: Node.js prerequisite 18+ → 20+, expand Security section
+
+---
+
 ## [1.2.6] - 2026-02-22
 
 ### Security
