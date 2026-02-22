@@ -5,6 +5,32 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.6] - 2026-02-22
+
+### Security
+- Require author or admin to edit wiki pages via PUT (missing check, any authenticated user could edit others' pages)
+- Require explicit `"DELETE ALL DATA"` confirmation field in restore endpoint body
+- Add audit log (userId, timestamp, record counts) to restore and export admin endpoints
+- Remove internal error details from restore endpoint client response
+- Make rate limiter fail-closed when DB is unreachable (prevents brute force during outages)
+- Apply `content` (100 000 chars) and `tags` (10 × 50 chars) length limits in Zod schemas
+- Restrict `GET /api/wiki/pages` to published or own pages for non-admin users (draft/archived pages were visible to all)
+- Validate `PIX3LBOARD_URL` with `z.string().url()` before injecting into `window.__PIX3L_CONFIG__`
+- Add structured `logger.error` / `logger.warn` to all API route catch blocks (17 silent catch blocks fixed)
+- Upgrade Docker base image from `node:18-alpine` (EOL) to `node:20-alpine`
+- Run Docker container as non-root user `app` (uid 1000)
+- Add Docker `HEALTHCHECK`
+- Update transitive npm dependencies via `npm audit fix`
+- Add comment in `rateLimit.ts` explaining why in-memory rate limiting breaks on Vercel serverless
+
+### Tests
+- Add Playwright smoke test verifying `window.__PIX3L_CONFIG__.pix3lboardUrl` is not `localhost`
+
+### CI
+- Add non-blocking security checks GitHub Actions workflow
+
+---
+
 ## [1.2.5] - 2026-02-20
 
 ### Fixed
