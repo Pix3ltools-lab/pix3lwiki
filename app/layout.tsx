@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { z } from 'zod';
 import './globals.css';
 import { AppProvider } from '@/components/providers/AppProvider';
 import { ToastContainer } from '@/components/ui/Toast';
@@ -25,8 +26,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const rawUrl = process.env.PIX3LBOARD_URL || process.env.NEXT_PUBLIC_PIX3LBOARD_URL || 'https://board.pix3ltools.com';
+  const parsedUrl = z.string().url().safeParse(rawUrl);
   const pix3lConfig = {
-    pix3lboardUrl: process.env.PIX3LBOARD_URL || process.env.NEXT_PUBLIC_PIX3LBOARD_URL || 'https://board.pix3ltools.com',
+    pix3lboardUrl: parsedUrl.success ? parsedUrl.data : 'https://board.pix3ltools.com',
   };
 
   return (
