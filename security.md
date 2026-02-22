@@ -71,10 +71,23 @@ Durante downtime del DB, il brute force era possibile senza limitazioni.
 - ⏳ **Da fare**: branch dedicato `fix/security-eslint-upgrade` con test completi della build
 
 **B) Next.js DoS**
-- GHSA-9g9p-9gw9-jx7f: DoS via Image Optimizer remotePatterns (solo self-hosted, non Vercel)
+- GHSA-9g9p-9gw9-jx7f: DoS via Image Optimizer remotePatterns — colpisce self-hosted (DigitalOcean), **non Vercel**
 - GHSA-h25m-26qc-wcjf: HTTP request deserialization DoS con RSC insicuri
-- Fix richiede: next 14→16 (breaking change massiccio)
-- ⏳ **Da fare**: branch dedicato `fix/security-nextjs-upgrade` dopo test approfonditi
+
+**Strategia consigliata:**
+
+*Mitigazione immediata (basso rischio)* — rate limit Traefik su `/_next/image` in `pix3ltools-deploy`:
+```yaml
+- "traefik.http.middlewares.image-ratelimit.ratelimit.average=10"
+- "traefik.http.middlewares.image-ratelimit.ratelimit.burst=30"
+```
+Limita l'abuso dell'Image Optimizer senza toccare il codice.
+
+*Fix definitivo (Opzione A — upgrade 14→15)* — breaking change principale: `params` e `searchParams`
+diventano Promise nei Server Components. Tutte le page che li usano vanno aggiornate con `await`.
+- ⏳ **Da fare**: branch `fix/security-nextjs-15` — eseguire E2E completi prima del deploy su DO
+- Versione target: `next@15.5.10` (prima versione fuori dalla finestra CVE)
+- Riferimento: [Next.js 14→15 migration guide](https://nextjs.org/docs/app/building-your-application/upgrading/version-15)
 
 ---
 
