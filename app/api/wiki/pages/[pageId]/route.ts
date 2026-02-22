@@ -74,6 +74,11 @@ export async function PUT(
       return NextResponse.json({ error: 'Page not found' }, { status: 404 });
     }
 
+    // Only author or admin can edit
+    if (existing.author_id !== auth.user.id && !auth.user.is_admin) {
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
+    }
+
     const body = await request.json();
     const parsed = updatePageSchema.safeParse(body);
     if (!parsed.success) {
