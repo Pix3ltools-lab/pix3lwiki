@@ -1,7 +1,10 @@
 import { generateId } from '@/lib/utils/id';
 import { queryOne, execute } from '@/lib/db/turso';
 
-// Configuration
+// IMPORTANT: rate limiting must be persisted on DB (not in-memory).
+// On Vercel, each API route invocation is a stateless serverless function:
+// requests may land on different instances that do not share memory.
+// An in-memory Map or similar would be bypassed entirely on Vercel.
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes in ms
 const ATTEMPT_WINDOW = 15 * 60 * 1000; // 15 minutes in ms
