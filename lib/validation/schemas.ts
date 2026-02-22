@@ -2,17 +2,17 @@ import { z } from 'zod';
 
 export const createPageSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
-  content: z.string().default(''),
+  content: z.string().max(100000, 'Content too long').default(''),
   category_id: z.string().nullable().optional(),
-  tags: z.array(z.string()).default([]),
+  tags: z.array(z.string().max(50, 'Tag too long')).max(10, 'Too many tags').default([]),
   status: z.enum(['draft', 'published', 'archived']).default('draft'),
 });
 
 export const updatePageSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title too long').optional(),
-  content: z.string().optional(),
+  content: z.string().max(100000, 'Content too long').optional(),
   category_id: z.string().nullable().optional(),
-  tags: z.array(z.string()).optional(),
+  tags: z.array(z.string().max(50, 'Tag too long')).max(10, 'Too many tags').optional(),
   status: z.enum(['draft', 'published', 'archived']).optional(),
   change_summary: z.string().max(500).optional(),
 });
