@@ -51,9 +51,7 @@ const linkSchema = z.object({
 });
 
 const backupSchema = z.object({
-  confirm: z.literal('DELETE ALL DATA', {
-    errorMap: () => ({ message: 'Include confirm: "DELETE ALL DATA" in the request body to proceed' }),
-  }),
+  confirm: z.literal('DELETE ALL DATA', { message: 'Include confirm: "DELETE ALL DATA" in the request body to proceed' }),
   exported_at: z.string(),
   pages: z.array(pageSchema),
   categories: z.array(categorySchema),
