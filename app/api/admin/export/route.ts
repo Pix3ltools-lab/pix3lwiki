@@ -16,6 +16,13 @@ export async function GET(request: NextRequest) {
   ]);
 
   const exported_at = new Date().toISOString();
+
+  console.log(
+    '[AUDIT] Export performed by user', auth.user.id,
+    'at', exported_at,
+    '| pages:', pages.length,
+    '| versions:', versions.length
+  );
   const date = exported_at.slice(0, 10);
 
   const data = { exported_at, pages, categories, versions, links };
