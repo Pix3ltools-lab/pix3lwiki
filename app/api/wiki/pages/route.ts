@@ -31,6 +31,12 @@ export async function GET(request: NextRequest) {
     `;
     const args: Record<string, unknown> = {};
 
+    // Non-admins can only see published pages or their own pages
+    if (!auth.user.is_admin) {
+      sql += ' AND (wp.status = \'published\' OR wp.author_id = :userId)';
+      args.userId = auth.user.id;
+    }
+
     if (status) {
       sql += ' AND wp.status = :status';
       args.status = status;
