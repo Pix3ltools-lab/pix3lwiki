@@ -56,7 +56,7 @@ Pix3lWiki is a wiki companion app that integrates with [Pix3lBoard](https://boar
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 20+
 - npm
 - A running Pix3lBoard instance (same Turso database)
 
@@ -254,11 +254,15 @@ Playwright HTML report is uploaded as artifact on every run.
 
 - **Authentication**: JWT tokens stored in HttpOnly cookies with SameSite protection
 - **Password Security**: bcrypt hashing with 12 salt rounds (via Pix3lBoard)
-- **Input Validation**: Zod schema validation on all API inputs
+- **Input Validation**: Zod schema validation on all API inputs, including content length limits
 - **Security Headers**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options
 - **SQL Injection Prevention**: Parameterized queries throughout
 - **Route Protection**: Middleware redirects for authenticated-only pages
-- **Authorization**: Only authors and admins can edit/delete pages
+- **Authorization**: Only authors and admins can edit or delete pages
+- **Rate Limiting**: Login endpoint limited to 5 attempts per 15 minutes (DB-persisted, works on serverless)
+- **Audit Logging**: Admin export and restore operations are logged server-side (who, when, record counts)
+- **Restore Confirmation**: Database restore requires an explicit `"DELETE ALL DATA"` field in the request body
+- **Docker**: Container runs as non-root user (`node`, uid 1000)
 
 ## Logging
 
