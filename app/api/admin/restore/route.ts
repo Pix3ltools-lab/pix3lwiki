@@ -51,6 +51,9 @@ const linkSchema = z.object({
 });
 
 const backupSchema = z.object({
+  confirm: z.literal('DELETE ALL DATA', {
+    errorMap: () => ({ message: 'Include confirm: "DELETE ALL DATA" in the request body to proceed' }),
+  }),
   exported_at: z.string(),
   pages: z.array(pageSchema),
   categories: z.array(categorySchema),
@@ -129,11 +132,16 @@ export async function POST(request: NextRequest) {
     const db = getTursoClient();
     await db.batch(statements);
   } catch (err) {
-    return NextResponse.json(
-      { error: 'Restore failed', details: err instanceof Error ? err.message : String(err) },
-      { status: 500 }
-    );
+    console.error('[AUDIT] Restore FAILED by user', auth.user.id, 'at', new Date().toISOString(), '-', err);
+    return NextResponse.json({ error: 'Restore failed' }, { status: 500 });
   }
+
+  console.log(
+    '[AUDIT] Restore completed by user', auth.user.id,
+    'at', new Date().toISOString(),
+    '| pages:', pages.length,
+    '| categories:', categories.length
+  );
 
   return NextResponse.json({
     success: true,
