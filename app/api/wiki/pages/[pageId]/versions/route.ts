@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query, queryOne } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { WikiVersionWithAuthor } from '@/types';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +36,8 @@ export async function GET(
     );
 
     return NextResponse.json({ versions: rows });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/pages/[pageId]/versions failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

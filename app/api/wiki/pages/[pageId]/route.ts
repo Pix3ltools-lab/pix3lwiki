@@ -3,6 +3,7 @@ import { query, queryOne, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { updatePageSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
@@ -50,7 +51,8 @@ export async function GET(
     };
 
     return NextResponse.json({ page });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/pages/[pageId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -141,7 +143,8 @@ export async function PUT(
     );
 
     return NextResponse.json({ success: true, version: newVersion });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'PUT /api/wiki/pages/[pageId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -173,7 +176,8 @@ export async function DELETE(
     await execute('DELETE FROM wiki_pages WHERE id = :pageId', { pageId: params.pageId });
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'DELETE /api/wiki/pages/[pageId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

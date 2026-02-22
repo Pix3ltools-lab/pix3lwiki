@@ -3,6 +3,7 @@ import { query, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { createPageSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 import { slugify } from '@/lib/utils/slug';
@@ -71,7 +72,8 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json({ pages });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/pages failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -134,7 +136,8 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json({ page: { id, title, slug, status } }, { status: 201 });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'POST /api/wiki/pages failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

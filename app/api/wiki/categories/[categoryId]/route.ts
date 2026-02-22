@@ -3,6 +3,7 @@ import { queryOne, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { updateCategorySchema } from '@/lib/validation/schemas';
 import { WikiCategory } from '@/types';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +27,8 @@ export async function GET(
     }
 
     return NextResponse.json({ category });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/categories/[categoryId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -84,7 +86,8 @@ export async function PUT(
     );
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'PUT /api/wiki/categories/[categoryId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -115,7 +118,8 @@ export async function DELETE(
     await execute('DELETE FROM wiki_categories WHERE id = :id', { id: params.categoryId });
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'DELETE /api/wiki/categories/[categoryId] failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

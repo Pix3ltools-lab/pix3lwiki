@@ -3,6 +3,7 @@ import { query, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { createCategorySchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 import { slugify } from '@/lib/utils/slug';
@@ -29,7 +30,8 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json({ categories });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/categories failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -73,7 +75,8 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json({ category: { id, name, slug, color } }, { status: 201 });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'POST /api/wiki/categories failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

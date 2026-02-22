@@ -3,6 +3,7 @@ import { query, execute } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { createLinkSchema } from '@/lib/validation/schemas';
 import { generateId } from '@/lib/utils/id';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 import { Pix3lBoardLink } from '@/types';
@@ -39,7 +40,8 @@ export async function GET(request: NextRequest) {
 
     const links = await query<Pix3lBoardLink>(sql, args);
     return NextResponse.json({ links });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/links failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -82,13 +84,15 @@ export async function POST(request: NextRequest) {
           'UPDATE cards SET wiki_page_id = :wikiPageId, updated_at = :now WHERE id = :cardId',
           { wikiPageId: wiki_page_id, now, cardId: card_id }
         );
-      } catch {
+      } catch (err) {
         // Non-critical: card may not exist or column may not be migrated yet
+        logger.warn({ err }, 'Failed to update wiki_page_id on card (non-critical)');
       }
     }
 
     return NextResponse.json({ link: { id, wiki_page_id, link_type } }, { status: 201 });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'POST /api/wiki/links failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

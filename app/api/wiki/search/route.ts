@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db/turso';
 import { requireAuth } from '@/lib/auth/middleware';
 import { WikiPageRow, WikiPageWithAuthor } from '@/types';
+import logger from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,7 +70,8 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json({ pages, query: q });
-  } catch {
+  } catch (err) {
+    logger.error({ err }, 'GET /api/wiki/search failed');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
