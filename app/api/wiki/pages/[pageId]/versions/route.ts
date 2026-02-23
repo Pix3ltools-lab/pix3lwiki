@@ -8,8 +8,9 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { pageId: string } }
+  { params }: { params: Promise<{ pageId: string }> }
 ) {
+  const { pageId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -19,7 +20,7 @@ export async function GET(
     // Verify page exists
     const page = await queryOne<{ id: string }>(
       'SELECT id FROM wiki_pages WHERE id = :pageId',
-      { pageId: params.pageId }
+      { pageId }
     );
 
     if (!page) {
@@ -32,7 +33,7 @@ export async function GET(
        JOIN users u ON wv.author_id = u.id
        WHERE wv.page_id = :pageId
        ORDER BY wv.version DESC`,
-      { pageId: params.pageId }
+      { pageId }
     );
 
     return NextResponse.json({ versions: rows });

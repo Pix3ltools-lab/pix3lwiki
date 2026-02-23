@@ -9,8 +9,9 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
+  const { categoryId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -19,7 +20,7 @@ export async function GET(
 
     const category = await queryOne<WikiCategory>(
       'SELECT * FROM wiki_categories WHERE id = :id',
-      { id: params.categoryId }
+      { id: categoryId }
     );
 
     if (!category) {
@@ -35,8 +36,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
+  const { categoryId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -45,7 +47,7 @@ export async function PUT(
 
     const existing = await queryOne<WikiCategory>(
       'SELECT * FROM wiki_categories WHERE id = :id',
-      { id: params.categoryId }
+      { id: categoryId }
     );
 
     if (!existing) {
@@ -61,7 +63,7 @@ export async function PUT(
     const updates = parsed.data;
     const now = new Date().toISOString();
     const fields: string[] = ['updated_at = :now'];
-    const args: Record<string, unknown> = { id: params.categoryId, now };
+    const args: Record<string, unknown> = { id: categoryId, now };
 
     if (updates.name !== undefined) {
       fields.push('name = :name');
@@ -94,8 +96,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: Promise<{ categoryId: string }> }
 ) {
+  const { categoryId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -108,14 +111,14 @@ export async function DELETE(
 
     const existing = await queryOne<{ id: string }>(
       'SELECT id FROM wiki_categories WHERE id = :id',
-      { id: params.categoryId }
+      { id: categoryId }
     );
 
     if (!existing) {
       return NextResponse.json({ error: 'Category not found' }, { status: 404 });
     }
 
-    await execute('DELETE FROM wiki_categories WHERE id = :id', { id: params.categoryId });
+    await execute('DELETE FROM wiki_categories WHERE id = :id', { id: categoryId });
 
     return NextResponse.json({ success: true });
   } catch (err) {

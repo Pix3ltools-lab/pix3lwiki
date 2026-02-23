@@ -10,8 +10,9 @@ import { WikiPageRow, WikiPageWithAuthor } from '@/types';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { pageId: string } }
+  { params }: { params: Promise<{ pageId: string }> }
 ) {
+  const { pageId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -25,7 +26,7 @@ export async function GET(
        JOIN users u ON wp.author_id = u.id
        LEFT JOIN wiki_categories wc ON wp.category_id = wc.id
        WHERE wp.id = :pageId`,
-      { pageId: params.pageId }
+      { pageId }
     );
 
     if (!row) {
@@ -59,8 +60,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { pageId: string } }
+  { params }: { params: Promise<{ pageId: string }> }
 ) {
+  const { pageId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -69,7 +71,7 @@ export async function PUT(
 
     const existing = await queryOne<WikiPageRow>(
       'SELECT * FROM wiki_pages WHERE id = :pageId',
-      { pageId: params.pageId }
+      { pageId }
     );
 
     if (!existing) {
@@ -94,7 +96,7 @@ export async function PUT(
     // Build update query
     const fields: string[] = ['version = :version', 'updated_at = :now'];
     const args: Record<string, unknown> = {
-      pageId: params.pageId,
+      pageId,
       version: newVersion,
       now,
     };
@@ -132,7 +134,7 @@ export async function PUT(
        VALUES (:id, :pageId, :title, :content, :version, :authorId, :summary, :now)`,
       {
         id: versionId,
-        pageId: params.pageId,
+        pageId,
         title: updates.title || existing.title,
         content: updates.content !== undefined ? updates.content : existing.content,
         version: newVersion,
@@ -151,8 +153,9 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { pageId: string } }
+  { params }: { params: Promise<{ pageId: string }> }
 ) {
+  const { pageId } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -161,7 +164,7 @@ export async function DELETE(
 
     const existing = await queryOne<{ id: string; author_id: string }>(
       'SELECT id, author_id FROM wiki_pages WHERE id = :pageId',
-      { pageId: params.pageId }
+      { pageId }
     );
 
     if (!existing) {
@@ -173,7 +176,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
-    await execute('DELETE FROM wiki_pages WHERE id = :pageId', { pageId: params.pageId });
+    await execute('DELETE FROM wiki_pages WHERE id = :pageId', { pageId });
 
     return NextResponse.json({ success: true });
   } catch (err) {

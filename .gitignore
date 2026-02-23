@@ -45,3 +45,10 @@ CLAUDE.md
 # personal notes
 how_to_docker.md
 security.md
+
+# Windows metadata files
+*.Zone.Identifier
+
+# test artifacts
+test.db
+playwright-report.zip

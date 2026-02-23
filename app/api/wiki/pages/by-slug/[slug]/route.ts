@@ -8,8 +8,9 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
+  const { slug } = await params;
   try {
     const auth = await requireAuth(request);
     if ('error' in auth) {
@@ -23,7 +24,7 @@ export async function GET(
        JOIN users u ON wp.author_id = u.id
        LEFT JOIN wiki_categories wc ON wp.category_id = wc.id
        WHERE wp.slug = :slug`,
-      { slug: params.slug }
+      { slug }
     );
 
     if (!row) {
