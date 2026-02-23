@@ -5,6 +5,20 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.8] - 2026-02-23
+
+### Security
+- Upgrade Next.js 14 → 15.5.12 (fixes GHSA-9g9p-9gw9-jx7f Image Optimizer DoS and GHSA-h25m-26qc-wcjf RSC deserialization DoS)
+- Upgrade eslint 8 → 9.39.3, migrate to flat config (`eslint.config.mjs`)
+
+### Changed
+- API route handlers updated for Next.js 15: `params` is now async (`await params`)
+
+### Fixed
+- E2E category test: use `getByRole('heading')` to avoid ambiguous `text=Categories` match
+
+---
+
 ## [1.2.7] - 2026-02-22
 
 ### Fixed
