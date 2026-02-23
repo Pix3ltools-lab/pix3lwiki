@@ -5,14 +5,14 @@ test.describe('Categories (Admin)', () => {
   test('admin can access admin panel', async ({ page }) => {
     await page.goto('/admin');
     await expect(page.locator('text=Admin Panel')).toBeVisible({ timeout: 10000 });
-    await expect(page.locator('text=Categories')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Categories' })).toBeVisible();
   });
 
   test('create a category', async ({ page }) => {
     const catName = uniqueName('E2E Cat');
 
     await page.goto('/admin');
-    await expect(page.locator('text=Categories')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: 'Categories' })).toBeVisible({ timeout: 10000 });
 
     // Click Add Category
     await page.click('button:has-text("Add Category")');
@@ -33,7 +33,7 @@ test.describe('Categories (Admin)', () => {
     const catName = uniqueName('E2E EditCat');
 
     await page.goto('/admin');
-    await expect(page.locator('text=Categories')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: 'Categories' })).toBeVisible({ timeout: 10000 });
 
     // Create category first
     await page.click('button:has-text("Add Category")');
@@ -61,7 +61,7 @@ test.describe('Categories (Admin)', () => {
     const catName = uniqueName('E2E DelCat');
 
     await page.goto('/admin');
-    await expect(page.locator('text=Categories')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: 'Categories' })).toBeVisible({ timeout: 10000 });
 
     // Create category first
     await page.click('button:has-text("Add Category")');
