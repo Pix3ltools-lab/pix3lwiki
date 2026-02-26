@@ -5,6 +5,15 @@ All notable changes to Pix3lWiki will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-02-26
+
+### Security
+- Remove `unsafe-eval` from `script-src` CSP directive — no library in the app required it
+- Replace `unsafe-inline` with nonce-based CSP: a cryptographic nonce (UUID v4 base64) is generated per request in `middleware.ts` and injected into the `<script>` tag for `window.__PIX3L_CONFIG__`
+- CSP header moved from static `next.config.js` to `middleware.ts` to enable per-request nonce generation
+
+---
+
 ## [1.2.9] - 2026-02-24
 
 ### Security
